@@ -1,25 +1,27 @@
 
-#Adding students to array
-
 def input_students
-  puts "Please enter the names of the students:"
+  puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
-  #Creates empty array
-  $students = []
-  $student_count = 0
-  #Gets students name
+  # creates empty array
+  students = []
+  # user inputs the first name
   name = gets.chomp
-  #Unless names is empty, loop code
+  # while name is not nil, repeat this code
+  
   while !name.empty? do
-    #Adds student to the array as a hash
-    $student_count += 1
-    $students << [name, :november]
-    puts "Now we have #{$student_count} students"
-    # Takes the next name
+    # add the student to the array as a hash
+    puts "What is #{name}'s star sign?"
+    sign = gets.chomp
+    puts "What is #{name}'s date of birth?"
+    dob = gets.chomp
+    students << {name: name, cohort: :november, sign: sign, dob: dob}
+    puts "Now we have #{students.count} students"
+    # get another name from the user
     name = gets.chomp
   end
-  #returns complete students array
-  $students
+  
+  # return the array of students
+  students
 end
 
 def print_header
@@ -27,19 +29,14 @@ def print_header
   puts "-------------"
 end
 
-def print(names)
-  rounds = 0
-  student_index = 0
-  while rounds < $student_count do
-    name_to_print = $students[rounds][0]
-    cohort_to_print = $students[rounds][1]
-    puts "#{name_to_print} (#{cohort_to_print} cohort)"
-    rounds += 1
+def print(students)
+  students.each_with_index do |student, number|
+    puts "#{number+1}. #{student[:name]} (#{student[:cohort]} cohort). Born #{student[:dob]} so they are a #{student[:sign]}"
   end
 end
 
-def print_footer(names)
-  puts "Overall, we have #{$student_count} great students"
+def print_footer(students)
+  puts "Overall, we have #{students.count} great students"
 end
 
 students = input_students
