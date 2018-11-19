@@ -21,13 +21,13 @@ def input_students
 end
 
 def print_header
-  puts "The students of Villains Academy:"
+  puts "The students of Villains Academy with names less than 12 characters:"
   puts "-------------"
 end
 
 def print(names)
   names.each_with_index do |student, number|
-    if student[:name].start_with?("A")
+    if student[:name].length < 12
       puts "#{number+1}. #{student[:name]} (#{student[:cohort]} cohort)"
     end
   end
