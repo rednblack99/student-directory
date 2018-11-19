@@ -14,7 +14,11 @@ def input_students
       cohort = gets.chomp.capitalize
     end
     students << {name: name, cohort: cohort.to_sym}
-    puts "Now we have #{students.count} students"
+    if students.length == 1
+      puts "Now we have #{students.count} student"
+    else
+      puts "Now we have #{students.count} students"
+    end
     # get another name from the user
     puts "What is the next student's name?"
     name = gets.chomp
@@ -31,14 +35,14 @@ end
 
 def print(students) 
   puts "Students in October cohort:"
-  students.each do |student|
+    students.each do |student|
     if student[:cohort] == :October
       puts "#{student[:name]}"
     end
   end
   puts "Students in November cohort:"
   students.each do |student|
-  if student[:cohort] == :November
+    if student[:cohort] == :November
       puts "#{student[:name]}"
     end
   end
@@ -49,6 +53,10 @@ def print_footer(students)
 end
 
 students = input_students
-print_header
-print(students)
-print_footer(students)
+if students == []
+  puts "There are no students at Villain's Academy :("
+else
+  print_header
+  print(students)
+  print_footer(students)
+end
