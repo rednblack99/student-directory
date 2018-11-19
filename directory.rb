@@ -4,14 +4,14 @@ def input_students
   # creates empty array and rounds counter
   students = []
   # user inputs the first name
-  name = gets.chomp
+  name = gets.delete("\n")
   # while name is not nil, repeat this code
   while !name.empty? do
     # add the student to the array as a hash
     cohort = "No cohort assigned"
     until cohort == "November" || cohort == "October"
       puts "What cohort is #{name} in?"
-      cohort = gets.chomp.capitalize
+      cohort = gets.delete("\n").capitalize
     end
     students << {name: name, cohort: cohort.to_sym}
     if students.length == 1
@@ -21,7 +21,7 @@ def input_students
     end
     # get another name from the user
     puts "What is the next student's name?"
-    name = gets.chomp
+    name = gets.delete("\n")
   end
    
   # return the array of students
