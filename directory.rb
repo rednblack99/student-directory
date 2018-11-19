@@ -29,10 +29,18 @@ def print_header
   puts "-------------"
 end
 
-def print(students)
-  students.each_with_index do |student, number|
-    to_print = "#{number+1}. #{student[:name]} (#{student[:cohort]} cohort)}"
-    puts to_print.center(to_print.length+4)
+def print(students) 
+  puts "Students in October cohort:"
+  students.each do |student|
+    if student[:cohort] == :October
+      puts "#{student[:name]}"
+    end
+  end
+  puts "Students in November cohort:"
+  students.each do |student|
+  if student[:cohort] == :November
+      puts "#{student[:name]}"
+    end
   end
 end
 
