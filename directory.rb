@@ -31,7 +31,8 @@ end
 
 def print(students)
   students.each_with_index do |student, number|
-    puts "#{number+1}. #{student[:name]} (#{student[:cohort]} cohort). Born #{student[:dob]} so they are a #{student[:sign]}"
+    to_print = "#{number+1}. #{student[:name]} (#{student[:cohort]} cohort). Born #{student[:dob]} so they are a #{student[:sign]}"
+    puts to_print.center(to_print.length+4)
   end
 end
 
