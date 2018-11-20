@@ -94,7 +94,7 @@ end
     filename = "students.csv"
   end
   # Open a file
-  file = File.open("students.csv", "w")
+  file = File.open(filename, "w")
   # Iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
@@ -111,7 +111,7 @@ def try_load_students
     filename = "students.csv"
   end
   if File.exists?(filename)
-    load_students(filename)
+    load_students
     puts "Loaded #{@students.count} from #{filename}."
   else
     puts "Sorry, #{filename} doesn't exist."
