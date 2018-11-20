@@ -40,7 +40,7 @@ end
 def interactive_menu
   loop do
     print_menu
-    process(gets.chomp)    
+    process(STDIN.gets.chomp)    
   end
 end
 
@@ -48,14 +48,14 @@ def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
   # user inputs the first name
-  name = gets.delete("\n")
+  name = STDIN.gets.delete("\n")
   # while name is not nil, repeat this code
   while !name.empty? do
     # add the student to the array as a hash
     cohort = "No cohort assigned"
     until cohort == "November" || cohort == "October"
       puts "What cohort is #{name} in?"
-      cohort = gets.delete("\n").capitalize
+      cohort = STDIN.gets.delete("\n").capitalize
     end
     @students << {name: name, cohort: cohort.to_sym}
     if @students.length == 1
@@ -65,7 +65,7 @@ def input_students
     end
     # get another name from the user
     puts "What is the next student's name?"
-    name = gets.delete("\n")
+    name = STDIN.gets.delete("\n")
   end
  end
 
@@ -81,8 +81,20 @@ def input_students
   file.close
 end
 
-def load_students
-  file = File.open("students.csv", "r")
+def try_load_students
+  filename = ARGV.first
+  return if filename.nil?
+  if File.exists?(filename)
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}."
+  else
+    puts "Sorry, #{filename} doesn't exist."
+    exit
+  end
+end
+
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(",")
     @students << {name: name, cohort: cohort.to_sym}
@@ -114,4 +126,5 @@ def print_footer
   puts "Overall, we have #{@students.count} great students"
 end
 
+try_load_students
 interactive_menu
