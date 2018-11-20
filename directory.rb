@@ -5,8 +5,8 @@ def print_menu
   puts "Welcome to the Villain's Academy Student Registry. What would you like to do today?"
   puts "1. Input new students"
   puts "2. Show existing students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
+  puts "3. Save the list to a file"
+  puts "4. Load the list from a file"
   puts "9. Exit"
 end
 
@@ -45,6 +45,7 @@ def interactive_menu
 end
 
 def input_students
+  num_new_students = 0
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
   # user inputs the first name
@@ -53,6 +54,7 @@ def input_students
   while !@name.empty? do
     # add the student to the array as a hash
     add_students
+    num_new_students +=1
     
     if @students.length == 1
       puts "Now we have #{@students.count} student"
@@ -63,22 +65,34 @@ def input_students
     puts "What is the next student's name?"
     @name = STDIN.gets.delete("\n")
   end
- end
+  puts "#{num_new_students} students succesfully added"
+end
 
 def add_students
   @students << {name: @name, cohort: :November}
 end
 
- def load_students(filename = "students.csv")
+ def load_students
+  puts "Where would you like to load the students from?"
+  filename = gets.chomp
+  if filename.empty?
+    filename = "students.csv"
+  end
   file = File.open(filename, "r")
   file.readlines.each do |line|
     @name, @cohort = line.chomp.split(",")
     add_students
   end
   file.close
+  puts "New students succesfully loaded"
 end
 
  def save_students
+  puts "Please enter a name to save the students to:"
+  filename = gets.chomp
+  if filename.nil?
+    filename = "students.csv"
+  end
   # Open a file
   file = File.open("students.csv", "w")
   # Iterate over the array of students
@@ -88,11 +102,14 @@ end
     file.puts csv_line
   end
   file.close
+  puts "New students succesfully saved"
 end
 
 def try_load_students
   filename = ARGV.first
-  return if filename.nil?
+  if filename.nil?
+    filename = "students.csv"
+  end
   if File.exists?(filename)
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}."
