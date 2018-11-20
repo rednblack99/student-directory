@@ -48,16 +48,12 @@ def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
   # user inputs the first name
-  name = STDIN.gets.delete("\n")
+  @name = STDIN.gets.delete("\n")
   # while name is not nil, repeat this code
-  while !name.empty? do
+  while !@name.empty? do
     # add the student to the array as a hash
-    cohort = "No cohort assigned"
-    until cohort == "November" || cohort == "October"
-      puts "What cohort is #{name} in?"
-      cohort = STDIN.gets.delete("\n").capitalize
-    end
-    @students << {name: name, cohort: cohort.to_sym}
+    add_students
+    
     if @students.length == 1
       puts "Now we have #{@students.count} student"
     else
@@ -65,9 +61,22 @@ def input_students
     end
     # get another name from the user
     puts "What is the next student's name?"
-    name = STDIN.gets.delete("\n")
+    @name = STDIN.gets.delete("\n")
   end
  end
+
+def add_students
+  @students << {name: @name, cohort: :November}
+end
+
+ def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
+  file.readlines.each do |line|
+    @name, @cohort = line.chomp.split(",")
+    add_students
+  end
+  file.close
+end
 
  def save_students
   # Open a file
@@ -93,32 +102,14 @@ def try_load_students
   end
 end
 
-def load_students(filename = "students.csv")
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-    name, cohort = line.chomp.split(",")
-    @students << {name: name, cohort: cohort.to_sym}
-  end
-  file.close
-end
-
 def print_header
   puts "The students of Villains Academy are:"
   puts "-------------"
 end
 
 def print_students_list
-  puts "Students in October cohort:"
-    @students.each do |student|
-    if student[:cohort] == :October
-      puts "#{student[:name]}"
-    end
-  end
-  puts "Students in November cohort:"
   @students.each do |student|
-    if student[:cohort] == :November
-      puts "#{student[:name]}"
-    end
+    puts "#{student[:name]} (#{student[:cohort]} cohort)"
   end
 end
 
