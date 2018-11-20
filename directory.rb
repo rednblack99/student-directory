@@ -72,17 +72,15 @@ def add_students
   @students << {name: @name, cohort: :November}
 end
 
- def load_students
+def load_students
   puts "Where would you like to load the students from?"
   filename = gets.chomp
   if filename.empty?
     filename = "students.csv"
   end
-  file = File.open(filename, "r") do |file|
-    file.readlines.each do |line|
-      @name, @cohort = line.chomp.split(",")
-      add_students
-    end
+  file = CSV.foreach(filename) do |row|
+    @name, @cohort = row[0], row[1]
+    add_students
   end
   puts "New students succesfully loaded"
 end
@@ -94,12 +92,10 @@ end
     filename = "students.csv"
   end
   # Open a file
-  file = File.open((filename + ".csv", "w") do |file|
-  # Iterate over the array of students
+  CSV.open(filename, "w") do |csv_object|
     @students.each do |student|
       student_data = [student[:name], student[:cohort]]
-      csv_line = student_data.join(",")
-      file.puts csv_line
+      csv_object << student_data
     end
   end
   puts "New students succesfully saved"
@@ -134,5 +130,6 @@ def print_footer
   puts "Overall, we have #{@students.count} great students"
 end
 
+require 'csv'
 try_load_students
 interactive_menu
