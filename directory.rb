@@ -78,12 +78,12 @@ end
   if filename.empty?
     filename = "students.csv"
   end
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-    @name, @cohort = line.chomp.split(",")
-    add_students
+  file = File.open(filename, "r") do |file|
+    file.readlines.each do |line|
+      @name, @cohort = line.chomp.split(",")
+      add_students
+    end
   end
-  file.close
   puts "New students succesfully loaded"
 end
 
@@ -94,14 +94,14 @@ end
     filename = "students.csv"
   end
   # Open a file
-  file = File.open(filename, "w")
+  file = File.open((filename + ".csv", "w") do |file|
   # Iterate over the array of students
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+    @students.each do |student|
+      student_data = [student[:name], student[:cohort]]
+      csv_line = student_data.join(",")
+      file.puts csv_line
+    end
   end
-  file.close
   puts "New students succesfully saved"
 end
 
