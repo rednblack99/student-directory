@@ -5,6 +5,7 @@ def print_menu
   puts "Welcome to the Villain's Academy Student Registry. What would you like to do today?"
   puts "1. Input new students"
   puts "2. Show existing students"
+  puts "3. Save the list to students.csv"
   puts "9. Exit"
 end
 
@@ -13,7 +14,7 @@ def show_students
     puts "There are no students at Villain's Academy :("
   else
     print_header
-    print
+    print_students_list
     print_footer
   end
 end
@@ -24,6 +25,8 @@ def process(selection)
     input_students
   when "2"
     show_students
+  when "3"
+    save_students
   when "9"
     exit
   else
@@ -37,7 +40,6 @@ def interactive_menu
     process(gets.chomp)    
   end
 end
-
 
 def input_students
   puts "Please enter the names of the students"
@@ -64,12 +66,24 @@ def input_students
   end
  end
 
+ def save_students
+  # Open a file
+  file = File.open("students.csv", "w")
+  # Iterate over the array of students
+  @students.each do |student|
+    student_data = [student[:name], student[:cohort]]
+    csv_line = student_data.join(",")
+    file.puts csv_line
+  end
+  file.close
+end
+
 def print_header
   puts "The students of Villains Academy are:"
   puts "-------------"
 end
 
-def print
+def print_students_list
   puts "Students in October cohort:"
     @students.each do |student|
     if student[:cohort] == :October
