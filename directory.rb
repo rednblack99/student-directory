@@ -1,3 +1,35 @@
+
+def interactive_menu
+  students = []
+  loop do
+    #1. Print the menu and ask the user what to do
+    puts "Welcome to the Villain's Academy Student Registry. What would you like to do today?"
+    puts "1. Input new students"
+    puts "2. Show existing students"
+    puts "9. Exit"
+    # 2. Read the input and save it to a variable
+    selection = gets.chomp
+    # 3. Do what the user asked us to
+    case selection
+    when "1"
+      students = input_students
+    when "2"
+      if students == []
+        puts "There are no students at Villain's Academy :("
+      else
+        print_header
+        print(students)
+        print_footer(students)
+      end
+    when "9"
+      exit
+    else
+      puts "That wasn't a valid option. Please select from the numbers above."
+    end
+  end
+end
+
+
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
@@ -52,11 +84,4 @@ def print_footer(students)
   puts "Overall, we have #{students.count} great students"
 end
 
-students = input_students
-if students == []
-  puts "There are no students at Villain's Academy :("
-else
-  print_header
-  print(students)
-  print_footer(students)
-end
+interactive_menu
